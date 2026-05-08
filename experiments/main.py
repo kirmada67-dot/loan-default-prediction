@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
 
 train = pd.read_csv("../data/train.csv")
 test = pd.read_csv("../data/test.csv")
@@ -56,5 +58,16 @@ y = train["Loan_Status"]
 
 x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
-print(x_train)
-print(y_train)
+model = LinearRegression()
+model.fit(x_train, y_train)
+
+pred = model.predict(x_val)
+msr = mean_squared_error(y_val, pred)
+r2score = r2_score(y_val, pred)
+
+
+print(f"""
+Model: {model}
+MSR: {msr}
+r2_score: {r2score}
+""")
