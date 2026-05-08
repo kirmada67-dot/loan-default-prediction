@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import pandas as pd
-
+from sklearn.model_selection import train_test_split
 
 train = pd.read_csv("../data/train.csv")
 test = pd.read_csv("../data/test.csv")
@@ -49,3 +49,12 @@ test = pd.get_dummies(test, columns=["Property_Area"], drop_first=True)
 train.drop("Loan_ID", axis=1, inplace=True)
 test.drop("Loan_ID", axis=1, inplace=True)
 
+#Training
+
+x = train.drop("Loan_Status", axis=1)
+y = train["Loan_Status"]
+
+x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
+
+print(x_train)
+print(y_train)
