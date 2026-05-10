@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sbn
 
 train = pd.read_csv("../data/train.csv")
 test = pd.read_csv("../data/test.csv")
@@ -58,16 +60,26 @@ y = train["Loan_Status"]
 
 x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
-model = LinearRegression()
+model = LogisticRegression(max_iter=10000)
 model.fit(x_train, y_train)
 
 pred = model.predict(x_val)
-msr = mean_squared_error(y_val, pred)
-r2score = r2_score(y_val, pred)
 
+print("Model:", model)
+print("Accuracy:", accuracy_score(y_val, pred))
+print("Precision:", precision_score(y_val, pred))
+print("Recall:", recall_score(y_val, pred))
+print("F1 Score:", f1_score(y_val, pred))
 
-print(f"""
-Model: {model}
-MSR: {msr}
-r2_score: {r2score}
-""")
+print("\nClassification Report:\n")
+print(classification_report(y_val, pred))
+
+cm = confusion_matrix(y_val, pred)
+
+sbn.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+
+plt.show()
