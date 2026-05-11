@@ -28,3 +28,13 @@ Data source: https://www.kaggle.com/code/yonatanrabinovich/loan-prediction-datas
 
 #### Correlation Heatmap
 ![Correlation Heatmap](assets/correlation_heatmap.png)
+
+## Changelog
+
+### v1 — Logistic Regression Baseline
+- Added EDA with matplotlib and seaborn visualizations
+- Handled missing values and categorical encoding
+- Implemented train-validation split with stratification
+- Trained baseline Logistic Regression classifier
+- Added evaluation metrics and confusion matrix analysis
+- Added project insights and EDA screenshots to README
