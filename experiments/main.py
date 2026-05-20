@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import pandas as pd
-#from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
-#from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+#from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import seaborn as sbn
@@ -60,13 +60,17 @@ test.drop("Loan_ID", axis=1, inplace=True)
 x = train.drop("Loan_Status", axis=1)
 y = train["Loan_Status"]
 
-#x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
+x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
-#model = RandomForestClassifier(random_state=42)
-model = LogisticRegression(max_iter=10000)
+model = RandomForestClassifier(random_state=42)
+#model = LogisticRegression(max_iter=10000)
 
-#model.fit(x_train, y_train)
+model.fit(x_train, y_train)
 #pred = model.predict(x_val)
+
+importance = model.feature_importances_
+feature_importances = pd.DataFrame({"Feature": x.columns, "Importance": importance})
+feature_importances = feature_importances.sort_values(by='Importance', ascending=False)
 
 cv_accuracy = cross_val_score(model, x, y, cv=5, scoring='accuracy')
 cv_f1 = cross_val_score(model, x, y, cv=5, scoring='f1')
@@ -74,6 +78,8 @@ cv_f1 = cross_val_score(model, x, y, cv=5, scoring='f1')
 print("Model:", model)
 print("CV_accuracy: ", cv_accuracy.mean())
 print("CV_f1: ", cv_f1.mean())
+
+print(feature_importances)
 
 #print("Accuracy:", accuracy_score(y_val, pred))
 #print("Precision:", precision_score(y_val, pred))
@@ -92,3 +98,15 @@ print("CV_f1: ", cv_f1.mean())
 #plt.ylabel("Actual")
 
 #plt.show()
+
+plt.figure(figsize=(10,6))
+
+sbn.barplot(
+    x='Importance',
+    y='Feature',
+    data=feature_importances
+)
+
+plt.title("Feature Importance - Random Forest")
+
+plt.show()

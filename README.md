@@ -31,6 +31,15 @@ Data source: https://www.kaggle.com/code/yonatanrabinovich/loan-prediction-datas
 
 ## Changelog
 
+### v2 — Model Comparison & Advanced Evaluation
+- Added Random Forest Classifier for model comparison
+- Implemented classification metrics: Precision, Recall, and F1-score
+- Added confusion matrix visualization and analysis
+- Implemented 5-fold cross-validation for model stability evaluation
+- Added feature importance analysis using Random Forest
+- Compared model generalization and overfitting behavior
+- Finalized Logistic Regression as best-performing model
+
 ### v1 — Logistic Regression Baseline
 - Added EDA with matplotlib and seaborn visualizations
 - Handled missing values and categorical encoding
@@ -38,3 +47,4 @@ Data source: https://www.kaggle.com/code/yonatanrabinovich/loan-prediction-datas
 - Trained baseline Logistic Regression classifier
 - Added evaluation metrics and confusion matrix analysis
 - Added project insights and EDA screenshots to README
+
