@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-#from sklearn.linear_model import LogisticRegression
+#from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+#from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import seaborn as sbn
@@ -59,28 +60,35 @@ test.drop("Loan_ID", axis=1, inplace=True)
 x = train.drop("Loan_Status", axis=1)
 y = train["Loan_Status"]
 
-x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
+#x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
-model = RandomForestClassifier(random_state=42)
-model.fit(x_train, y_train)
+#model = RandomForestClassifier(random_state=42)
+model = LogisticRegression(max_iter=10000)
 
-pred = model.predict(x_val)
+#model.fit(x_train, y_train)
+#pred = model.predict(x_val)
+
+cv_accuracy = cross_val_score(model, x, y, cv=5, scoring='accuracy')
+cv_f1 = cross_val_score(model, x, y, cv=5, scoring='f1')
 
 print("Model:", model)
-print("Accuracy:", accuracy_score(y_val, pred))
-print("Precision:", precision_score(y_val, pred))
-print("Recall:", recall_score(y_val, pred))
-print("F1 Score:", f1_score(y_val, pred))
+print("CV_accuracy: ", cv_accuracy.mean())
+print("CV_f1: ", cv_f1.mean())
 
-print("\nClassification Report:\n")
-print(classification_report(y_val, pred))
+#print("Accuracy:", accuracy_score(y_val, pred))
+#print("Precision:", precision_score(y_val, pred))
+#print("Recall:", recall_score(y_val, pred))
+#print("F1 Score:", f1_score(y_val, pred))
 
-cm = confusion_matrix(y_val, pred)
+#print("\nClassification Report:\n")
+#print(classification_report(y_val, pred))
 
-sbn.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+#cm = confusion_matrix(y_val, pred)
 
-plt.title("Confusion Matrix")
-plt.xlabel("Predicted")
-plt.ylabel("Actual")
+#sbn.heatmap(cm, annot=True, fmt='d', cmap='Blues')
 
-plt.show()
+#plt.title("Confusion Matrix")
+#plt.xlabel("Predicted")
+#plt.ylabel("Actual")
+
+#plt.show()
