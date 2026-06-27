@@ -111,3 +111,6 @@ sbn.barplot(
 plt.title("Feature Importance - Random Forest")
 
 plt.show()
+
+print(x_train.columns)
+print(pred)

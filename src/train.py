@@ -24,3 +24,4 @@ xgb_model.fit(x, y)
 jb.dump(rf_model, "../models/rf_model.pkl")
 jb.dump(logistic_model, "../models/logistic_model.pkl")
 jb.dump(xgb_model, "../models/xgb_model.pkl")
+
