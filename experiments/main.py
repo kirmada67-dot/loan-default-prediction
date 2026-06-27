@@ -2,8 +2,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
-from sklearn.ensemble import RandomForestClassifier
+#from sklearn.ensemble import RandomForestClassifier
 #from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import seaborn as sbn
@@ -62,32 +63,32 @@ y = train["Loan_Status"]
 
 x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
-model = RandomForestClassifier(random_state=42)
+#model = RandomForestClassifier(random_state=42)
 #model = LogisticRegression(max_iter=10000)
-
+model = XGBClassifier()
 model.fit(x_train, y_train)
-#pred = model.predict(x_val)
+pred = model.predict(x_val)
 
 importance = model.feature_importances_
 feature_importances = pd.DataFrame({"Feature": x.columns, "Importance": importance})
 feature_importances = feature_importances.sort_values(by='Importance', ascending=False)
 
-cv_accuracy = cross_val_score(model, x, y, cv=5, scoring='accuracy')
-cv_f1 = cross_val_score(model, x, y, cv=5, scoring='f1')
+#cv_accuracy = cross_val_score(model, x, y, cv=5, scoring='accuracy')
+#cv_f1 = cross_val_score(model, x, y, cv=5, scoring='f1')
 
 print("Model:", model)
-print("CV_accuracy: ", cv_accuracy.mean())
-print("CV_f1: ", cv_f1.mean())
+#print("CV_accuracy: ", cv_accuracy.mean())
+#print("CV_f1: ", cv_f1.mean())
 
-print(feature_importances)
+#print(feature_importances)
 
 #print("Accuracy:", accuracy_score(y_val, pred))
 #print("Precision:", precision_score(y_val, pred))
 #print("Recall:", recall_score(y_val, pred))
 #print("F1 Score:", f1_score(y_val, pred))
 
-#print("\nClassification Report:\n")
-#print(classification_report(y_val, pred))
+print("\nClassification Report:\n")
+print(classification_report(y_val, pred))
 
 #cm = confusion_matrix(y_val, pred)
 
