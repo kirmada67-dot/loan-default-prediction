@@ -2,8 +2,7 @@
 
 import streamlit as st
 import pandas as pd
-from src.predict import classify_user
-
+from inference import classify_user
 st.set_page_config(page_title="Loan Default Prediction")
 
 st.title("Loan Default Prediction")
